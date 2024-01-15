@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Training Management Mapping</title>
     <style>
-        #resultTable, #mappingTable, #mapButton,#submitButton,#srch,#trs {
+        #resultTable, #mappingTable, #mapButton,#submitButton,#srch,#trs,#form11 {
             display: none;
             border-collapse: collapse;
             width: 100%;
@@ -39,7 +39,8 @@
 
     <h1 align="center">Training Management Mapping</h1>
 
-    <div class="field">
+    <div>		
+    			<div class="field">
         <label for="dropdown">Select a management:</label>
         <select id="dropdown" onclick="test()">
             <!-- Placeholder option -->
@@ -85,7 +86,7 @@
     </div>
 
 
- <div class="field">
+  <div class="field">
         <button onclick="Teachers()">Find Teachers Based On District And Mandal</button>
     </div>
     
@@ -95,12 +96,12 @@
     </div>
 
 
-  <div class="field">
+   <div class="field">
         <button onclick="shownontreasuryField()">WithOut Treasury Id</button>
     </div>
 
 
- <div class="field" id="mapButton">
+   <div class="field" id="mapButton">
         <button onclick="showMapping()">Map</button>
     </div>
     
@@ -108,11 +109,71 @@
         <button onclick="save()">SUBMIT</button>
     </div>
 
+ 
+    </div>
+		
+
+      <div class="container"  id="form11">
+		<h1 style="text-align: center;">Training Management Form</h1>
+ 
+		<form   onsubmit="saveForm(event)">
+			
+			<div class="clearfix"></div>
+ 
+			<!-- Left Column -->
+			<div class="form-group left-col">
+			
+			
+				<div>
+					<label for="name">Name<span class="required">*</span> :
+					</label> <input type="text" id="mfname" name="mfname" required>
+				</div>	
+			</div>
+ 
+ 
+			<!-- Right Column -->
+			<div class="form-group right-col">
+				<div>
+					<label for="designation">Designation<span class="required">*</span>
+						:
+					</label> <input type="text" id="mfdesignation" name="mfdesignation"
+						required>
+				</div>
+                <div style="margin-top: 10px;">
+					<!-- Adding space -->
+					<label for="phone">Phone<span class="required">*</span> :
+					</label> <input type="text" id="mfphone" name="mfphone" required>
+				</div>
+				<div style="margin-top: 10px;">
+					<!-- Adding space -->
+					<label for="email">Email<span class="required">*</span> :
+					</label> <input type="text" id="mfemail" name="mfemail" required>
+				</div>
+ 
+				<div style="margin-top: 10px;">
+					<!-- Adding space -->
+					<label for="district">District:</label> <input type="text"
+						id="mfdistrict" name="mfdistrict" required >
+				</div>
+ 
+				<div style="margin-top: 10px;">
+					<!-- Adding space -->
+					<label for="mandal">Mandal:</label> <input type="text"
+						id="mfmandal" name="mfmandal" required >
+				</div>
+				
+			<!-- Save Button -->
+			 <div class="field" id="savebutton">
+        <button onclick="saveForm(event)">SAVE</button>
+    </div>
+    </div>
+		</form>
+	</div>
+
     <div class="field">
         <table id="mappingTable">
             <thead>
-                <tr>
-                
+                <tr>  
                 	<th>Training Name</th>
                 	<th>Training Id</th>
                 	<th>Venue Name</th>
@@ -137,8 +198,7 @@
     <div class="field">
         <table id="resultTable">
             <thead>
-                <tr>
-                
+                <tr>               
                      <th>Sl No</th>
                      <th>Action</th>
                      <th>Treasury Id</th>
@@ -159,6 +219,64 @@
     <!-- Add this script inside the head section of your HTML -->
     <script>
     
+    function saveForm(event){
+    	
+    	
+        event.preventDefault();
+
+    	    // Get the form data
+    	    const selectedManagement = document.getElementById('dropdown').value;
+    	    const selectedTraining = document.getElementById('trainingname').options[document.getElementById('trainingname').selectedIndex].text;
+    	    const selectedTrainingId = document.getElementById('trainingname').value;
+    	    const selectedVenueName = document.getElementById('venueName').value;
+    	    const selectedVenueId = document.getElementById('venueid').value;
+
+    	    // Create a new row in the result table and append form data
+    	    const resultTableBody = document.getElementById('tableBody');
+    	    const newRow = resultTableBody.insertRow();
+    	    
+    	    const slNoCell = newRow.insertCell(0);
+    	    slNoCell.textContent = resultTableBody.rows.length;
+
+    	    const actionCell = newRow.insertCell(1);
+    	    const checkbox = document.createElement('input');
+    	    checkbox.type = 'checkbox';
+    	    actionCell.appendChild(checkbox);
+
+    	    const treasuryIdCell = newRow.insertCell(2);
+    	    treasuryIdCell.textContent = document.getElementById('treasuryId').value.trim();
+
+    	    const teacherNameCell = newRow.insertCell(3);
+    	    teacherNameCell.textContent = document.getElementById('mfname').value.trim();
+
+    	    const districtCell = newRow.insertCell(4);
+    	    districtCell.textContent = document.getElementById('mfdistrict').value.trim();
+
+    	    const mandalCell = newRow.insertCell(5);
+    	    mandalCell.textContent = document.getElementById('mfmandal').value.trim();
+
+    	    const designationCell = newRow.insertCell(6);
+    	    designationCell.textContent = document.getElementById('mfdesignation').value.trim();
+
+    	    const emailCell = newRow.insertCell(7);
+    	    emailCell.textContent = document.getElementById('mfemail').value.trim();
+
+    	    const mobileCell = newRow.insertCell(8);
+    	    mobileCell.textContent = document.getElementById('mfphone').value.trim();
+
+    	    // Display the result table
+    	    document.getElementById('resultTable').style.display = 'block';
+            document.getElementById('mapButton').style.display = 'block';
+
+    	    
+    	    alert("save form ");
+    }
+
+    
+    function shownontreasuryField(){
+    	
+        document.getElementById('form11').style.display = 'block';    	
+    }
     
     function test(){
     	

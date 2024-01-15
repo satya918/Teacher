@@ -30,6 +30,13 @@
  
 </head>
 <body>
+
+ <script>
+    // Disable right-click on the document
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+  </script>
  
 	<a href="AddNewTraining.jsp" class="btn btn-success mt-2">Add
 		NewTraining +</a>

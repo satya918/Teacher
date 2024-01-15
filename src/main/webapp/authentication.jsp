@@ -78,139 +78,152 @@
         border-color: black; /* You can adjust the value as needed */
     }
 	</style>
-	 <script>
-        $(document).ready(function () {
-            // Initially hide the specific fields
+	<script>
+    $(document).ready(function () {
+        // Initially hide the specific fields
+        $('#adminFields, #teacherFields, #govtEmployeeFields, #nonGovtEmployeeFields').addClass('hidden');
+
+        // Initialize login credentials object
+        var loginCredentials = {
+            loginAs: $('#loginAs').val().trim(),
+            username: '',
+            password: '',
+            treasuryid: '',
+            mobilenumberteacher: ''
+        };
+
+        $('#loginAs').change(function () {
+            var selectedValue = $(this).val();
+
+            // Hide all fields initially
             $('#adminFields, #teacherFields, #govtEmployeeFields, #nonGovtEmployeeFields').addClass('hidden');
 
-            // Initialize login credentials object
-            var loginCredentials = {
-                loginAs: $('#loginAs').val().trim(),
-                username: '',
-                password: '',
-                treasuryid: '',
-                mobilenumberteacher: ''
-            };
+            // Update login credentials based on selected value
+            loginCredentials.loginAs = selectedValue;
+            if (loginCredentials.loginAs === 'admin') {
+                $('#adminFields').removeClass('hidden');
+            } else if (loginCredentials.loginAs === 'teacher') {
+                $('#teacherFields').removeClass('hidden');
+            }
+        });
 
-            $('#loginAs').change(function () {
-                var selectedValue = $(this).val();
+        $('#loginForm').submit(function (event) {
+            event.preventDefault();
 
-                // Hide all fields initially
-                $('#adminFields, #teacherFields, #govtEmployeeFields, #nonGovtEmployeeFields').addClass('hidden');
+            // Update login credentials with form values
+            if (loginCredentials.loginAs === 'admin') {
+                loginCredentials.username = $('#username').val().trim();
+                loginCredentials.password = $('#passwordId').val().trim();
+            } else if (loginCredentials.loginAs === 'teacher') {
+                loginCredentials.treasuryid = $('#treasuryId').val().trim();
+                loginCredentials.mobilenumberteacher = $('#mobileNumber').val().trim();
+            }
 
-                // Update login credentials based on selected value
-                loginCredentials.loginAs = selectedValue;
-                if (loginCredentials.loginAs === 'admin') {
-                    $('#adminFields').removeClass('hidden');
-                } else if (loginCredentials.loginAs === 'teacher') {
-                    $('#teacherFields').removeClass('hidden');
-                }
-            });
-
-            $('#loginForm').submit(function (event) {
-                event.preventDefault();
-
-                // Update login credentials with form values
-                if (loginCredentials.loginAs === 'admin') {
-                    loginCredentials.username = $('#username').val().trim();
-                    loginCredentials.password = $('#passwordId').val().trim();
-                } else if (loginCredentials.loginAs === 'teacher') {
-                    loginCredentials.treasuryid = $('#treasuryId').val().trim();
-                    loginCredentials.mobilenumberteacher = $('#mobileNumber').val().trim();
-                }
-
-                // Determine the API URL based on the role
-                var apiUrl = '';
-                if (loginCredentials.loginAs === 'admin') {
-                    apiUrl = '/api/admin/login';
-                } else if (loginCredentials.loginAs === 'teacher') {
-                    var isGovtEmployee = $('input[name="govtEmployee"]:checked').val() === 'yes';
-
-                    if (isGovtEmployee) {
-                        apiUrl = '/api/teacher/login';
-                    } else {
-                        apiUrl = '/api/teacher/cfmsid';
-
-                        // Add parameters for non-govt employee
-                        var cfmsId = $('#cfmsId').val().trim();
-                        var mobileNumberNonGovt = $('#mobileNumberNonGovt').val().trim();
-                        apiUrl += '?cfms_id=' + cfmsId + '&mobileno_teacher=' + mobileNumberNonGovt;
-
-                        // AJAX Request for non-govt employee
-                        $.ajax({
-                            url: apiUrl,
-                            type: 'GET',
-                            success: function (response) {
-                                console.log('Non-Govt Employee Login successful');
-                                setCFMSIdSession();
-                                window.location.href='/mainFrameTrainee.jsp';
-                                // Handle success for non-govt employee login
-
-                                // Now, you can handle the response as needed
-                                // For example, you might want to update the UI or take other actions.
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Non-Govt Employee Login failed', error);
-                                // Handle error for non-govt employee login
-                            }
-                        });
-
-                        // Reset the API URL for the main login request
-                        apiUrl = '/api/teacher/login';
-                    }
-                }
-
-                // AJAX Request for the main login (for govt employees or teachers)
-                $.ajax({
-                    url: apiUrl,
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(loginCredentials),
-                    success: function (response) {
-                        console.log('Login successful');
-
-                        // Determine the dashboard based on the role
-                        var dashboardUrl = '';
-                        if (loginCredentials.loginAs === 'admin') {
-                            dashboardUrl = '/MainFrameAdmin.jsp';
-                        } else if (loginCredentials.loginAs === 'teacher') {
-                            dashboardUrl = '/mainFrameTrainee.jsp';
-                        }
-
-                        showAlert('Login Successful', 'alert-success');
-                        // Redirect to the appropriate dashboard
-                        window.location.href = dashboardUrl;
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Login failed', error);
-                        showAlert('Login Failed. Please check your credentials. Error: ' + error, 'alert-danger');
-                    }
-                });
-            });
-            // Handle radio button change event
-            $('input[name="govtEmployee"]').change(function () {
+            // Determine the API URL based on the role
+            var apiUrl = '';
+            if (loginCredentials.loginAs === 'admin') {
+                apiUrl = '/api/admin/login';
+            } else if (loginCredentials.loginAs === 'teacher') {
                 var isGovtEmployee = $('input[name="govtEmployee"]:checked').val() === 'yes';
 
                 if (isGovtEmployee) {
-                    // Show govt employee fields
-                    $('#govtEmployeeFields').removeClass('hidden');
-                    $('#nonGovtEmployeeFields').addClass('hidden');
+                    apiUrl = '/api/teacher/login';
                 } else {
-                    // Show non-govt employee fields
-                    $('#govtEmployeeFields').addClass('hidden');
-                    $('#nonGovtEmployeeFields').removeClass('hidden');
+                    apiUrl = '/api/teacher/cfmsid';
+
+                    // Add parameters for non-govt employee
+                    var cfmsId = $('#cfmsId').val().trim();
+                    var mobileNumberNonGovt = $('#mobileNumberNonGovt').val().trim();
+                    apiUrl += '?cfms_id=' + cfmsId + '&mobileno_teacher=' + mobileNumberNonGovt;
+
+                    // AJAX Request for non-govt employee
+                    $.ajax({
+                        url: apiUrl,
+                        type: 'GET',
+                        success: function (response) {
+                            console.log('Non-Govt Employee Login successful');
+                            setCFMSIdSession();
+                            window.location.href = '/mainFrameTrainee.jsp';
+                            // Handle success for non-govt employee login
+
+                            // Now, you can handle the response as needed
+                            // For example, you might want to update the UI or take other actions.
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Non-Govt Employee Login failed', error);
+                            // Handle error for non-govt employee login
+                        }
+                    });
+
+                    // Reset the API URL for the main login request
+                    apiUrl = '/api/teacher/login';
+                }
+            }
+
+            // AJAX Request for the main login (for govt employees or teachers)
+            $.ajax({
+                url: apiUrl,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(loginCredentials),
+                success: function (response) {
+                    console.log('Login successful');
+
+                    storeUsernameInSession(loginCredentials.username);
+
+                    // Determine the dashboard based on the role
+                    var dashboardUrl = '';
+                    if (loginCredentials.loginAs === 'admin') {
+                        dashboardUrl = '/MainFrameAdmin.jsp';
+                    } else if (loginCredentials.loginAs === 'teacher') {
+                        dashboardUrl = '/mainFrameTrainee.jsp';
+                    }
+
+                    showAlert('Login Successful', 'alert-success');
+                    // Redirect to the appropriate dashboard
+                    window.location.href = dashboardUrl;
+                },
+                error: function (xhr, status, error) {
+                    console.error('Login failed', error);
+                    showAlert('Login Failed. Please check your credentials. Error: ' + error, 'alert-danger');
                 }
             });
+        });
 
-            function showAlert(message, alertClass) {
-                var alertDiv = $('<div class="alert ' + alertClass + ' mt-3" role="alert">' + message + '</div>');
-                $('#loginForm').prepend(alertDiv);
-                setTimeout(function () {
-                    alertDiv.alert('close');
-                }, 3000);
+        function storeUsernameInSession(username) {
+            if (typeof (Storage) !== "undefined") {
+                sessionStorage.setItem("username", username);
+                console.log(username);
+            } else {
+                alert("Sorry, your browser does not support session storage.");
+            }
+        }
+
+        // Handle radio button change event
+        $('input[name="govtEmployee"]').change(function () {
+            var isGovtEmployee = $('input[name="govtEmployee"]:checked').val() === 'yes';
+
+            if (isGovtEmployee) {
+                // Show govt employee fields
+                $('#govtEmployeeFields').removeClass('hidden');
+                $('#nonGovtEmployeeFields').addClass('hidden');
+            } else {
+                // Show non-govt employee fields
+                $('#govtEmployeeFields').addClass('hidden');
+                $('#nonGovtEmployeeFields').removeClass('hidden');
             }
         });
-    </script>
+
+        function showAlert(message, alertClass) {
+            var alertDiv = $('<div class="alert ' + alertClass + ' mt-3" role="alert">' + message + '</div>');
+            $('#loginForm').prepend(alertDiv);
+            setTimeout(function () {
+                alertDiv.alert('close');
+            }, 3000);
+        }
+    });
+</script>
+
 <body>
 	<div>
 		<div>

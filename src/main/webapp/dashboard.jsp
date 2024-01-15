@@ -91,6 +91,28 @@ iframe {
         }
  
 </style>
+
+
+<script>
+//Check if session storage is supported
+if (typeof (Storage) !== "undefined") {
+    // Retrieve the username from session storage
+    var storedUsername = sessionStorage.getItem("username");
+
+    // Check if the username is available
+    if (storedUsername) {
+        console.log("Username retrieved from session storage:", storedUsername);
+        // Now you can use the 'storedUsername' variable in your code
+    } else {
+        console.log("Username not found in session storage.");
+    }
+} else {
+    console.log("Sorry, your browser does not support session storage.");
+}
+
+
+</script>
+
 </head>
 <body>
 

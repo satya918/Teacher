@@ -8,16 +8,16 @@
   <title>Add Training Category</title>
   
   <!-- Favicon-->
-<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+  <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -79,73 +79,74 @@
       opacity: 0.8;
     }
   </style>
+
+  <script>
+    // Disable right-click on the document
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+  </script>
 </head>
 <body>
-<form id="addSessionForm" onsubmit="return saveGroup()">
- 
-  <div class="container">
-    <h2>Add Training Spell</h2>
- 
-    <label for="spell">Training Spell:</label>
-    <input type="text" id="spell" placeholder="Enter spell" required>
- 
-    <div class="button-container">
-      <button type="button" class="save-button" onclick="saveGroup()">Save</button>
-      <button type="button" class="close-button" onclick="closeForm()">Close</button>
+  <form id="addSessionForm" onsubmit="return saveGroup()">
+    <div class="container">
+      <h2>Add Training Spell</h2>
+      <label for="spell">Training Spell:</label>
+      <input type="text" id="spell" placeholder="Enter spell" required>
+      <div class="button-container">
+        <button type="button" class="save-button" onclick="saveGroup()">Save</button>
+        <button type="button" class="close-button" onclick="closeForm()">Close</button>
+      </div>
     </div>
-  </div>
   </form>
-<script>
-        $(document).ready(function() {
-            function validateForm() {
-                var attendgrade = $("#spell").val();
-                 
- 
-                if (attendgrade.trim() === "") {
-                    document.getElementById("spell").innerHTML = "Training Grade is required";
-                    return false;
-                } else {
-                    document.getElementById("spell").innerHTML = "";
-                }
- 
-                return true;
+
+  <script>
+    $(document).ready(function() {
+      function validateForm() {
+        var attendgrade = $("#spell").val();
+        if (attendgrade.trim() === "") {
+          document.getElementById("spell").innerHTML = "Training Grade is required";
+          return false;
+        } else {
+          document.getElementById("spell").innerHTML = "";
+        }
+        return true;
+      }
+
+      window.saveGroup = function() {
+        if (validateForm()) {
+          // Collect form data and create a JSON object
+          var formData = {
+            spell : $("#spell").val()
+          };
+
+          // Make a POST request to the api/savedata endpoint
+          $.ajax({
+            type : "POST",
+            url : "/api/create/spell",
+            contentType : "application/json",
+            data : JSON.stringify(formData),
+            success : function(response) {
+              console.log(response);
+              toastr.success("Training spell saved successfully");
+              window.location.href = "/TrainingSpell.jsp";
+            },
+            error : function(xhr, status, error) {
+              console.error("API request error: " + error);
+              toastr.error("Failed to save training data");
             }
- 
-            window.saveGroup = function() {
-                if (validateForm()) {
-                    // Collect form data and create a JSON object
-                    var formData = {
-                    		spell : $("#spell").val()
-                        
-                    };
- 
-                    // Make a POST request to the api/savedata endpoint
-                    $.ajax({
-                        type : "POST",
-                        url : "/api/create/spell",
-                        contentType : "application/json",
-                        data : JSON.stringify(formData),
-                        success : function(response) {
-                            console.log(response);
-                            toastr.success("Training spell saved successfully");
-                            window.location.href = "/TrainingSpell.jsp";
-                        },
-                        error : function(xhr, status, error) {
-                            console.error("API request error: " + error);
-                            toastr.error("Failed to save training data");
-                        }
-                    });
-                }
- 
-                // Prevent the default form submission
-                return false;
-            }
-            window.closeForm = function() {
-                // Redirect to session.jsp
-                window.location.href = "/TrainingSpell.jsp";
-            }
-        });
-    </script>
-  
+          });
+        }
+
+        // Prevent the default form submission
+        return false;
+      }
+
+      window.closeForm = function() {
+        // Redirect to session.jsp
+        window.location.href = "/TrainingSpell.jsp";
+      }
+    });
+  </script>
 </body>
 </html>

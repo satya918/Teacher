@@ -30,14 +30,14 @@ public class ScheduleTrainingsServiceImpl implements ScheduleTrainingsService {
 
 	@Override
 	public List<ScheduleTrainings> getAllScheduledTrainings1(ScheduleTrainings scheduleTrainings) {
-		List<ScheduleTrainings> findAll = ScheduleTrainingsRepo.findAll();
+		List<ScheduleTrainings> findAll = ScheduleTrainingsRepo.findTrainingBetweenApplyStartDateToTrainingStartdate();
 		return findAll;
 	}
 
 	@Override
 	public List<ScheduleTrainings> getAllScheduledTrainingsbyid(String ref_planner_id) {
 		// TODO Auto-generated method stub
-		return ScheduleTrainingsRepo.findTrainingBetweenApplyDates1(ref_planner_id);
+		return ScheduleTrainingsRepo.findByRefId(ref_planner_id);
 	}
 
 }

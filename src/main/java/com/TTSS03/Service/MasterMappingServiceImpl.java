@@ -131,5 +131,11 @@ public class MasterMappingServiceImpl implements MasterMappingService {
 	    return updatePart;
 	}
 
+	@Override
+	public List<MasterMapping> findAllMappedtrainingsBhyId(long trainingid,String venueid) {
+		// TODO Auto-generated method stub
+		return MasterMappingRepo.findByTrainingId(trainingid,venueid);
+	}
+
 }
 

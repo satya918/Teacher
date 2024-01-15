@@ -18,8 +18,10 @@ public interface ScheduleTrainingsRepository extends JpaRepository<ScheduleTrain
 	    List<ScheduleTrainings> findTrainingBetweenApplyDates();
 	 
 	 
-	 @Query("SELECT t FROM ScheduleTrainings t WHERE curdate() BETWEEN t.apply_start_dt AND t.apply_end_dt and ref_planner_id=:ref_planner_id")
-	    List<ScheduleTrainings> findTrainingBetweenApplyDates1(@Param("ref_planner_id") String ref_planner_id);
-	          
-	    
+//	 @Query("SELECT t FROM ScheduleTrainings t WHERE curdate() BETWEEN t.apply_start_dt AND t.apply_end_dt and ref_planner_id=:ref_planner_id")
+//	    List<ScheduleTrainings> findTrainingBetweenApplyDates1(@Param("ref_planner_id") String ref_planner_id);
+//	          
+	 @Query("SELECT t FROM ScheduleTrainings t WHERE curdate() BETWEEN t.apply_start_dt AND t.training_start_dt")
+	    List<ScheduleTrainings> findTrainingBetweenApplyStartDateToTrainingStartdate();
+	  
 }

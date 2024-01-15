@@ -142,8 +142,15 @@ iframe {
       width: 150px; /* Set the width for main menu items */
     }
 </style>
+<script>
+    // Disable right-click on the document
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+  </script>
 </head>
 <body>
+ 
  
 	<div id="banner">
 		<h1>Teacher Training Support System</h1>
