@@ -7,11 +7,13 @@ import com.TTSS03.Entity.MasterMapping;
 public interface MasterMappingService {
 	
 	
-	List<MasterMapping> saveOne (List<MasterMapping> mastermapping);
+	//List<MasterMapping> saveOne (List<MasterMapping> mastermapping);
 	
     void saveOrUpdateEntity(MasterMapping masterMapping, String type);
     
     List<MasterMapping>findAllMappedtrainingsBhyId(long trainingid,String venueid);
+    
+    List<MasterMapping>findAllMappedtrainings();
 
 
 

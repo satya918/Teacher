@@ -299,6 +299,16 @@ public class ViewMyTrainingsServiceImpl implements ViewMyTrainingsService {
 			List<ViewMyTrainings> trainings = ViewMyTrainingsRepo.findByTreasuryIdAndRefPlannerId(treasuryId, refPlannerIds);
 			return trainings;
 		}
+		
+		@Override
+		public List<Map<String, Object>> findApprovedDataTeacherTrainingVenueId(String trainingId, String venueId ) {
+			 return ViewMyTrainingsRepo.findApprovedDataListTrainingVenueId(trainingId,venueId);
+		 }
+		
+		@Override
+		public List<Map<String, Object>> findApprovedDataTeacher() {
+			 return ViewMyTrainingsRepo.findApprovedDataList();
+		 }
 			
 		
 }

@@ -44,7 +44,10 @@ public class MasterMappingController {
 	        return new ResponseEntity<>(findAllMappedtrainingsBhyId, HttpStatus.OK);
 	    }
 	}
-
-
+	@GetMapping("/mapped/trainings")
+	public ResponseEntity<List<MasterMapping>> findAll(){
+		List<MasterMapping> findAllMappedtrainings = MasterMappingServ.findAllMappedtrainings();
+		return ResponseEntity.ok(findAllMappedtrainings);
+	}
 
 }

@@ -37,6 +37,8 @@ public interface ViewMyTrainingsService {
 
 	void storeDataNominate(List<NominateTrainingsDto> selectedRowsData);
 	
+	
+	
 	List<Map<String, Object>> getSelfAttendedData();
 	
 	List<NominateTrainings> getNominatedTrainings();
@@ -46,5 +48,9 @@ public interface ViewMyTrainingsService {
 	void updateStatusToApprovedNomonate(String treasuryId, String refPlannerId);
 
 	List<ViewMyTrainings>checkIfAlreadyAppliedTrainings(String treasuryId, String refPlannerIds);
+	
+	List<Map<String, Object>> findApprovedDataTeacherTrainingVenueId(String trainingId, String venueId );
+	
+	List<Map<String, Object>> findApprovedDataTeacher();
 
 }

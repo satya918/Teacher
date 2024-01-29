@@ -42,7 +42,7 @@
     <div>		
     			<div class="field">
         <label for="dropdown">Select a management:</label>
-        <select id="dropdown" onclick="test()">
+        <select id="dropdown" >
             <!-- Placeholder option -->
             <option value="" disabled selected>Select a management</option>
         </select>
@@ -278,12 +278,12 @@
         document.getElementById('form11').style.display = 'block';    	
     }
     
-    function test(){
+//     function test(){
     	
-    	  selectedManagement= document.getElementById('dropdown').value;
-			 console.log(selectedManagement);
+//     	  selectedManagement= document.getElementById('dropdown').value;
+// 			 console.log(selectedManagement);
     	
-    }
+//     }
     
         function fetchData() {
             // Fetch management names
@@ -397,6 +397,8 @@
     
     
     <script>
+    
+     var trainingDetails ;
     		function search(){
     			 const selectedTrainingId = document.getElementById('trainingname').value;
     	            
@@ -410,21 +412,30 @@
     	            $.ajax({
     	                type: "GET",
     	                url: "/api/scheduledTrainingsbyid?ref_planner_id=" + selectedTrainingId,
-    	                success: function(trainingDetails) {
+    	                success: function(data) {
     	                   
 
     	                    // Populate venue name, district, and mandal fields
-    	                    document.getElementById('venueName').value = trainingDetails[0].venue_name;
-    	                    document.getElementById('district').value = trainingDetails[0].district;
-    	                    document.getElementById('mandal').value = trainingDetails[0].mandal;
-    	                    document.getElementById('venueid').value = trainingDetails[0].venue_id;
+    	                    document.getElementById('venueName').value = data[0].venue_name;
+    	                    document.getElementById('district').value = data[0].district;
+    	                    document.getElementById('mandal').value = data[0].mandal;
+    	                    document.getElementById('venueid').value = data[0].venue_id;
+    	                    
+    	                    
+    	                   var apply_start_dt=data[0].apply_start_dt;
+    	                  var  training_start_dt=data[0].training_start_dt;
+    	                    
+    	                    console.log(apply_start_dt  + training_start_dt);
+    	                    trainingDetails = data;
+    	                   
+    	                    
     	                },
     	                error: function(error) {
     	                    console.error('Error fetching training details:', error);
     	                    alert('Error fetching training details. Please try again.');
     	                }
     	            });
-
+    	            
     		}
     
     		
@@ -499,7 +510,9 @@
     		    }
     		    
    			 
-   			 const selectedManagement= document.getElementById('dropdown').value;
+//    			 const selectedManagement= document.getElementById('dropdown').value;
+   			 const selectedManagement= document.getElementById('dropdown').options[document.getElementById('dropdown').selectedIndex].text;
+
    			const selectedTraining = document.getElementById('trainingname').options[document.getElementById('trainingname').selectedIndex].text;
             const selectedTrainingId = document.getElementById('trainingname').value;
             const selectedVenueName = document.getElementById('venueName').value;
@@ -507,7 +520,7 @@
 
 
     		    // Display the mapping table
-    		        		    document.getElementById('resultTable').style.display = 'none';
+    		    document.getElementById('resultTable').style.display = 'none';
 
     		    document.getElementById('mappingTable').style.display = 'block';
                 document.getElementById('submitButton').style.display = 'block';
@@ -580,58 +593,124 @@
     		    cell.textContent = data;
     		    row.appendChild(cell);
     		}  
-    		
-    		
     		function save() {
-    			  const mappingTableRows = document.querySelectorAll('#mappingTable tbody tr');
-    			  const selectedManagement = document.getElementById('dropdown').value;
-    			  const type = selectedManagement;
+    		    const mappingTableRows = document.querySelectorAll('#mappingTable tbody tr');
+    		    const selectedManagement = document.getElementById('dropdown').value;
+    		    const type = selectedManagement;
+    		    var username = sessionStorage.getItem("username");
 
-    			  mappingTableRows.forEach((row) => {
-    			    const rowData = {
-    			      trainingid: row.cells[1].textContent,
-    			      trainingname: row.cells[0].textContent,
-    			      venueid: row.cells[3].textContent,
-    			      venuename: row.cells[2].textContent,
-    			    };
+    		    if (trainingDetails && trainingDetails.length > 0) {
+    		        var apply_start_dt = trainingDetails[0].apply_start_dt || 'N/A';
+    		        var apply_end_dt = trainingDetails[0].apply_end_dt || 'N/A';
+    		        var training_start_dt = trainingDetails[0].training_start_dt || 'N/A';
+    		        var training_end_dt = trainingDetails[0].training_end_dt || 'N/A';
+    		        var tstarttime = trainingDetails[0].tstarttime || 'N/A';
+    		        var tendtime = trainingDetails[0].tendtime || 'N/A';
 
-    			    if (type === "CC" || type === "ACC" || type === "RP" || type === "PP" || type === "OS") {
-    			      
-    			    	type1 = type.toLowerCase();
-    			    	
-    			    	rowData[type1 + 'flag'] = "Yes";
-    			      rowData[type1 + 'treasuryid'] = row.cells[5].textContent;
-    			      rowData[type1 + 'name'] = row.cells[6].textContent;
-    			      rowData[type1 + 'designation'] = row.cells[9].textContent;
-    			      rowData[type1 + 'district'] = row.cells[7].textContent;
-    			      rowData[type1 + 'mandal'] = row.cells[8].textContent;
-    			      rowData[type1 + 'email'] = row.cells[10].textContent;
-    			      rowData[type1 + 'mobile'] = row.cells[11].textContent;
-    			    }
+    		        console.log(apply_start_dt + apply_end_dt + training_start_dt + training_end_dt + tstarttime + tendtime);
+    		    } else {
+    		        console.error('trainingDetails is not defined or empty.');
+    		    }
 
-    			    $.ajax({
-    			      type: "POST",
-    			      url: "api/saveOrUpdate?type=" + type,
-    			      contentType: "application/json",
-    			      data: JSON.stringify(rowData),
-    			      success: function (response) {
-    			        console.log('Mapping data saved successfully:', response);
-    			        alert("Mapping Data saved successfully");
-    			      },
-    			      error: function (error) {
-    			        console.error('Error saving mapping data:', error);
-    			        alert('Error saving mapping data. Please try again.');
-    			      }
-    			    });
-    			  });
-    			}
-    		
+    		    const allData = {};
+
+    		    // Declare fields outside the loop
+    		    const baseFields = {
+    		        trainingid: '',
+    		        trainingname: '',
+    		        venueid: '',
+    		        venuename: '',
+    		        createdby: username,
+
+    		        applystartdate: apply_start_dt,
+    		        applyenddate: apply_end_dt,
+    		        trainingstartdate: training_start_dt,
+    		        trainingenddate: training_end_dt,
+    		        tstarttime: tstarttime,
+    		        tendtime: tendtime
+    		    };
+
+    		    mappingTableRows.forEach((row) => {
+    		        // Define 'row' within the loop
+    		        const rowData = {
+    		            trainingid: row.cells[1].textContent,
+    		            trainingname: row.cells[0].textContent,
+    		            venueid: row.cells[3].textContent,
+    		            venuename: row.cells[2].textContent,
+    		        };
+    		        Object.assign(baseFields, rowData);
+
+    		        if (type === "CC" || type === "ACC" || type === "RP" || type === "PP" || type === "OS") {
+    		            type1 = type.toLowerCase();
+    		            const keysToConcat = [type1 + 'treasuryid', type1 + 'name', type1 + 'district', type1 + 'mandal', type1 + 'designation', type1 + 'email', type1 + 'mobile'];
+
+    		            const encounteredKeys = new Set();
+
+    		            keysToConcat.forEach((keyToConcat, index) => {
+    		                const value = getValue(row.cells[index + 5]); // Adjust index here
+    		                if (value != null && !encounteredKeys.has(keyToConcat)) {
+    		                    rowData[keyToConcat] = value;
+    		                    encounteredKeys.add(keyToConcat);
+    		                } else {
+    		                    if (keyToConcat === type1 + 'flag' && !encounteredKeys.has(keyToConcat)) {
+    		                        // Set the flag value to "yes" if it's not present in the cell
+    		                        rowData[keyToConcat] = 'yes';
+    		                        encounteredKeys.add(keyToConcat);
+    		                    }
+    		                }
+    		            });
+    		        }
+
+    		        // Add 'flag' to rowData if it doesn't exist
+    		        if (!rowData[type1 + 'flag']) {
+    		            rowData[type1 + 'flag'] = 'yes';
+    		        }
+
+    		        // Concatenate values for the same key with commas
+    		        Object.keys(rowData).forEach((key) => {
+    		            if (rowData[key] != null) {
+    		                if (!allData[key]) {
+    		                    allData[key] = rowData[key];
+    		                } else {
+    		                    allData[key] += ',' + rowData[key];
+    		                }
+    		            }
+    		        });
+    		    });
+
+    		    // Append baseFields to allData
+    		    Object.assign(allData, baseFields);
+
+    		    // Now 'allData' contains a single object with keys and values separated by commas
+    		    console.log(allData);
+
+    		    // If you want to send 'allData' via AJAX, you can do it here
+    		    $.ajax({
+    		        type: "POST",
+    		        url: "api/saveOrUpdate?type=" + type,
+    		        contentType: "application/json",
+    		        data: JSON.stringify(allData),
+    		        success: function (response) {
+    		            console.log('Mapping data saved successfully:', response);
+    		            alert("Mapping Data saved successfully");
+    		        },
+    		        error: function (error) {
+    		            console.error('Error saving mapping data:', error);
+    		            alert('Error saving mapping data. Please try again.');
+    		        }
+    		    });
+    		}
+
+    		function getValue(cell) {
+    		    return cell ? cell.textContent.trim() : null;
+    		}
+
     		
     		function showtreasuryField(){
-    			 document.getElementById('trs').style.display = 'block';
-                 document.getElementById('srch').style.display = 'block';
-    			
-    		}
+   			 document.getElementById('trs').style.display = 'block';
+                document.getElementById('srch').style.display = 'block';  			
+   		}
+  
     </script>
 </body>
 </html>

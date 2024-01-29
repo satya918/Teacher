@@ -92,6 +92,35 @@
 						<label for="resource">Training Spell:</label> <select
 						id="spell" class="form-control" required></select>
 					</div>
+					
+					<div class="form-group">
+						<label for="budget">Estimated Budget:</label> <input type="number"
+							class="form-control" id="budget" pattern="\d*"   
+							 oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+					</div>
+					
+					<div class="form-group">
+						<label for="accountnumber">Account Number:</label> <input type="number"
+							class="form-control" id="accountnumber" pattern="\d*"   
+							 oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+					</div>
+					
+					<div class="form-group">
+						<label for="ifsc">IFSC Code:</label> <input type="number"
+							class="form-control" id="ifsc"  required>
+					</div>
+					
+					<div class="form-group">
+						<label for="status">Training Status:</label><select
+						id="status" class="form-control" required>
+													<option value="NA">NA</option>
+													<option value="confirmed">Confirmed</option>
+						
+						
+						
+						</select>
+					</div>
+					
 				</div>
 				<div class="col-md-6">
 					<!-- Add more fields as needed -->
@@ -144,16 +173,20 @@
 						</select>
 					</div>
  
+					
+					
+					
 					<div class="form-group">
-						<label for="status">Training Status:</label><select
-						id="status" class="form-control" required>
-													<option value="NA">NA</option>
-													<option value="confirmed">Confirmed</option>
-						
-						
-						
-						</select>
+						<label for="accountholdername">Account Holder Name:</label> <input type="text"
+							class="form-control" id="accountholdername"  required>
 					</div>
+					
+					<div class="form-group">
+						<label for="branchname">Branch Name:</label> <input type="text"
+							class="form-control" id="branchname" required>
+					</div>
+					
+					
 					<!-- Add more fields as needed -->
 				</div>
 			</div>

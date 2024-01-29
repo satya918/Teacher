@@ -24,11 +24,11 @@ public class MasterMappingServiceImpl implements MasterMappingService {
 	 @PersistenceContext
 	    private EntityManager entityManager;
 
-	@Override
-	public List<MasterMapping> saveOne(List<MasterMapping> mastermapping) {
-		// TODO Auto-generated method stub
-		return MasterMappingRepo.saveAll(mastermapping);
-	}
+//	@Override
+//	public List<MasterMapping> saveOne(List<MasterMapping> mastermapping) {
+//		// TODO Auto-generated method stub
+//		return MasterMappingRepo.saveAll(mastermapping);
+//	}
 
 	 @Override
 	    @Transactional
@@ -39,8 +39,8 @@ public class MasterMappingServiceImpl implements MasterMappingService {
 	                + "rpflag, rptreasuryid, rpname, rpdesignation, rpdistrict, rpmandal, rpemail, rpmobile, "
 	                + "osflag, ostreasuryid, osname, osdesignation, osdistrict, osmandal, osemail, osmobile, "
 	                + "ppflag, pptreasuryid, ppname, ppdesignation, ppdistrict, ppmandal, ppemail, ppmobile, "
-	                + "status, remark) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-	                + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE ";
+	                + "status, remark,createdby,modifiedby,trainingstartdate,trainingenddate,applystartdate,applyenddate,tstarttime,tendtime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+	                + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE ";
 
 	        String updatePart = generateUpdatePart(type);
 
@@ -97,6 +97,19 @@ public class MasterMappingServiceImpl implements MasterMappingService {
 	        query.setParameter(parameterIndex++, masterMapping.getPpmobile());
 	        query.setParameter(parameterIndex++, masterMapping.getStatus());
 	        query.setParameter(parameterIndex++, masterMapping.getRemark());
+	        
+	        query.setParameter(parameterIndex++, masterMapping.getCreatedby());
+	        query.setParameter(parameterIndex++, masterMapping.getModifiedby());
+	        
+	       
+	        query.setParameter(parameterIndex++, masterMapping.getTrainingstartdate());
+	        query.setParameter(parameterIndex++, masterMapping.getTrainingenddate());
+	        
+	        query.setParameter(parameterIndex++, masterMapping.getApplystartdate());
+	        query.setParameter(parameterIndex++, masterMapping.getApplyenddate());
+	        
+	        query.setParameter(parameterIndex++, masterMapping.getTstarttime());
+	        query.setParameter(parameterIndex++, masterMapping.getTendtime());
 
 	        // Execute the query
 	        query.executeUpdate();
@@ -109,23 +122,23 @@ public class MasterMappingServiceImpl implements MasterMappingService {
 	    if ("CC".equals(type)) {
 	        updatePart = " ccflag = VALUES(ccflag), cctreasuryid = VALUES(cctreasuryid), ccname = VALUES(ccname), "
 	                + "ccdesignation = VALUES(ccdesignation), ccdistrict = VALUES(ccdistrict), ccmandal = VALUES(ccmandal), "
-	                + "ccemail = VALUES(ccemail), ccmobile = VALUES(ccmobile)";
+	                + "ccemail = VALUES(ccemail), ccmobile = VALUES(ccmobile) ,modifiedby= VALUES(modifiedby)";
 	    } else if ("ACC".equals(type)) {
 	        updatePart = " accflag = VALUES(accflag), acctreasuryid = VALUES(acctreasuryid), accname = VALUES(accname), "
 	                + "accdesignation = VALUES(accdesignation), accdistrict = VALUES(accdistrict), accmandal = VALUES(accmandal), "
-	                + "accemail = VALUES(accemail), accmobile = VALUES(accmobile)";
+	                + "accemail = VALUES(accemail), accmobile = VALUES(accmobile) ,modifiedby =VALUES(modifiedby)";
 	    } else if ("RP".equals(type)) {
 	        updatePart = " rpflag = VALUES(rpflag), rptreasuryid = VALUES(rptreasuryid), rpname = VALUES(rpname), "
 	                + "rpdesignation = VALUES(rpdesignation), rpdistrict = VALUES(rpdistrict), rpmandal = VALUES(rpmandal), "
-	                + "rpemail = VALUES(rpemail), rpmobile = VALUES(rpmobile)";
+	                + "rpemail = VALUES(rpemail), rpmobile = VALUES(rpmobile) ,modifiedby =VALUES(modifiedby)";
 	    } else if ("OS".equals(type)) {
 	        updatePart = " osflag = VALUES(osflag), ostreasuryid = VALUES(ostreasuryid), osname = VALUES(osname), "
 	                + "osdesignation = VALUES(osdesignation), osdistrict = VALUES(osdistrict), osmandal = VALUES(osmandal), "
-	                + "osemail = VALUES(osemail), osmobile = VALUES(osmobile)";
+	                + "osemail = VALUES(osemail), osmobile = VALUES(osmobile) ,modifiedby= VALUES(modifiedby)";
 	    } else if ("PP".equals(type)) {
 	        updatePart = " ppflag = VALUES(ppflag), pptreasuryid = VALUES(pptreasuryid), ppname = VALUES(ppname), "
 	                + "ppdesignation = VALUES(ppdesignation), ppdistrict = VALUES(ppdistrict), ppmandal = VALUES(ppmandal), "
-	                + "ppemail = VALUES(ppemail), ppmobile = VALUES(ppmobile)";
+	                + "ppemail = VALUES(ppemail), ppmobile = VALUES(ppmobile) ,modifiedby =VALUES(modifiedby)";
 	    }
 
 	    return updatePart;
@@ -135,6 +148,13 @@ public class MasterMappingServiceImpl implements MasterMappingService {
 	public List<MasterMapping> findAllMappedtrainingsBhyId(long trainingid,String venueid) {
 		// TODO Auto-generated method stub
 		return MasterMappingRepo.findByTrainingId(trainingid,venueid);
+	}
+
+
+	@Override
+	public List<MasterMapping> findAllMappedtrainings() {
+		// TODO Auto-generated method stub
+		return MasterMappingRepo.findAll();
 	}
 
 }

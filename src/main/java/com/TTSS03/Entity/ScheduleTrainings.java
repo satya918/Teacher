@@ -21,10 +21,6 @@ public class ScheduleTrainings {
 	private String training_end_dt;
 	private String apply_start_dt;
 	private String apply_end_dt;
-	private String created_dt;
-	private String created_by;
-	private String modified_by;
-	private String modified_dt;
 	private String record_status;
 	private String maplocation;
 	private String vaddress;
@@ -44,7 +40,22 @@ public class ScheduleTrainings {
 	private String tendtime;
 	private String venue_name;
 	
+	private String createdby;
+	private String modifiedby;
 	
+	
+	public String getCreatedby() {
+		return createdby;
+	}
+	public void setCreatedby(String createdby) {
+		this.createdby = createdby;
+	}
+	public String getModifiedby() {
+		return modifiedby;
+	}
+	public void setModifiedby(String modifiedby) {
+		this.modifiedby = modifiedby;
+	}
 	public String getVenue_name() {
 		return venue_name;
 	}
@@ -117,24 +128,7 @@ public class ScheduleTrainings {
 	public void setApply_end_dt(String apply_end_dt) {
 		this.apply_end_dt = apply_end_dt;
 	}
-	public String getCreated_dt() {
-		return created_dt;
-	}
-	public void setCreated_dt(String created_dt) {
-		this.created_dt = created_dt;
-	}
-	public String getModified_by() {
-		return modified_by;
-	}
-	public void setModified_by(String modified_by) {
-		this.modified_by = modified_by;
-	}
-	public String getModified_dt() {
-		return modified_dt;
-	}
-	public void setModified_dt(String modified_dt) {
-		this.modified_dt = modified_dt;
-	}
+	
 	public String getRecord_status() {
 		return record_status;
 	}
@@ -202,12 +196,7 @@ public class ScheduleTrainings {
 	public void setTmodule(String tmodule) {
 		this.tmodule = tmodule;
 	}
-	public String getCreated_by() {
-		return created_by;
-	}
-	public void setCreated_by(String created_by) {
-		this.created_by = created_by;
-	}
+	
 	public String getState() {
 		return state;
 	}

@@ -25,12 +25,11 @@ public class SearchVenue {
 	private String vcontactno;
 	private String vcontactmailid;
 	private String createdby;
-	private String createddt;
 	private String modifiedby;
-	private String modifieddt;
 	private String vstatus="Active";
 	private String remarks;
 	private String maplocation;
+	
 	public long getVid() {
 		return vid;
 	}
@@ -115,24 +114,14 @@ public class SearchVenue {
 	public void setCreatedby(String createdby) {
 		this.createdby = createdby;
 	}
-	public String getCreateddt() {
-		return createddt;
-	}
-	public void setCreateddt(String createddt) {
-		this.createddt = createddt;
-	}
+	
 	public String getModifiedby() {
 		return modifiedby;
 	}
 	public void setModifiedby(String modifiedby) {
 		this.modifiedby = modifiedby;
 	}
-	public String getModifieddt() {
-		return modifieddt;
-	}
-	public void setModifieddt(String modifieddt) {
-		this.modifieddt = modifieddt;
-	}
+	
 	public String getVstatus() {
 		return vstatus;
 	}

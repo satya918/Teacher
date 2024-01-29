@@ -1,6 +1,7 @@
 package com.TTSS03.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -93,13 +94,6 @@ List<Object[]> findRejectedData();
 	        "WHERE mt.appliedtype = 'Nominated' AND mt.status='Waiting For Approval'", nativeQuery = true)
 	List<Object[]> findNominatedTrainings();
 	
-	
-//	@Query("SELECT mt.venueid,mt.ref_planner_id, mt.treasuryid,tm.tname, vm.vname, tm.tmode, tm.tdescription, tm.training_start_dt, tm.training_end_dt,"
-//			+ " vm.vaddress, vm.vcontactno, vm.vcontactmailid, vm.maplocation,tm.resourcetype "
-//			+ "FROM AppliedTrainingsFromTrainee mt "
-//			+ "JOIN ScheduleTrainings tm ON mt.ref_planner_id = tm.ref_planner_id "
-//			+ "JOIN SearchVenue vm ON mt.venueid = vm.vid " + "WHERE mt.treasuryid = :treasuryid and mt.ref_planner_id = :ref_planner_id and mt.venueid =:venueid")
-//	List<Object[]> findTrainingDetailsByTreasuryIdAndRef_plannerIdAndVid(@Param("treasuryid") String treasuryid,@Param("ref_planner_id") String ref_planner_id,@Param("venueid") String venueid );
 
 	
 	@Query("SELECT tr.ref_planner_id, tr.tname, tr.tdescription, tr.tagency, tr.tmode, tr.training_start_dt, " +
@@ -115,6 +109,22 @@ List<Object[]> findRejectedData();
 	        @Param("vid") long vid,
 	        @Param("treasuryid") String treasuryid
 	);
+	
+	@Query(value = "SELECT mt.treasuryid, tr.mobileno_teacher, tr.teacher_name, tr.design, tr.dob, tm.resourcetype, " +
+	        "tr.district_name, tr.school_code,tm.venue_id, tm.tname, tm.tmode, tm.tdescription,tm.venue_name, tm.vaddress, mt.ref_planner_id, " +
+	        "mt.appliedtype, mt.remarks, mt.applydateandtime " +
+	        "FROM mytrainings mt, ttransactiontraining tm, tteacher_master_update tr " +
+	        "WHERE tm.ref_planner_id = mt.ref_planner_id AND mt.treasuryid = tr.treasuryid " +
+	        "AND mt.status = 'approved'", nativeQuery = true)
+	List<Map<String, Object>>findApprovedDataList();
+	
+	@Query(value = "SELECT mt.treasuryid, tr.mobileno_teacher, tr.teacher_name, tr.design, tr.dob, tm.resourcetype, " +
+	        "tr.district_name, tr.school_code,tm.venue_id, tm.tname, tm.tmode, tm.tdescription,tm.venue_name, tm.vaddress, mt.ref_planner_id, " +
+	        "mt.appliedtype, mt.remarks, mt.applydateandtime " +
+	        "FROM mytrainings mt, ttransactiontraining tm, tteacher_master_update tr " +
+	        "WHERE tm.ref_planner_id = mt.ref_planner_id AND mt.treasuryid = tr.treasuryid " +
+	        "AND mt.status = 'approved' AND tm.ref_planner_id = :refPlannerId AND tm.venue_id = :venueId", nativeQuery = true)
+	List<Map<String, Object>> findApprovedDataListTrainingVenueId(@Param("refPlannerId") String trainingId, @Param("venueId") String venueId);
 
 	
 

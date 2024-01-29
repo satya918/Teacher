@@ -222,6 +222,10 @@
       window.saveVenue = function () {
         if (validateForm()) {
           // Collect form data and create a JSON object
+          
+              var username = sessionStorage.getItem("username");
+
+          
           var formData = {
             vname: $("#vname").val(),
             vstate: $("#vstate").val(),
@@ -236,6 +240,8 @@
             vcontactno: $("#coordinatormobile").val(),
             vcontactmailid: $("#coordinatoremail").val(),
             maplocation: $("#maplocation").val(),
+            createdby:username,
+            modifiedby:username,
           };
 
           // Make a POST request to the api/create/venue endpoint

@@ -1,5 +1,7 @@
 package com.TTSS03.Entity;
 
+
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -68,6 +70,69 @@ public class MasterMapping {
     private String ppmobile;   
     private String status="Ready for Delivery";
     private String remark;
+    
+    private String createdby;
+	private String modifiedby;
+	
+	private String applystartdate;
+	private String applyenddate;
+	private String trainingstartdate;
+	private String trainingenddate;
+	
+	private String tstarttime;
+	private String tendtime;
+	
+	
+	
+	
+	public String getApplyenddate() {
+		return applyenddate;
+	}
+	public void setApplyenddate(String applyenddate) {
+		this.applyenddate = applyenddate;
+	}
+	public String getTrainingenddate() {
+		return trainingenddate;
+	}
+	public void setTrainingenddate(String trainingenddate) {
+		this.trainingenddate = trainingenddate;
+	}
+	public String getTstarttime() {
+		return tstarttime;
+	}
+	public void setTstarttime(String tstarttime) {
+		this.tstarttime = tstarttime;
+	}
+	public String getTendtime() {
+		return tendtime;
+	}
+	public void setTendtime(String tendtime) {
+		this.tendtime = tendtime;
+	}
+	public String getApplystartdate() {
+		return applystartdate;
+	}
+	public void setApplystartdate(String applystartdate) {
+		this.applystartdate = applystartdate;
+	}
+	public String getTrainingstartdate() {
+		return trainingstartdate;
+	}
+	public void setTrainingstartdate(String trainingstartdate) {
+		this.trainingstartdate = trainingstartdate;
+	}
+	public String getCreatedby() {
+		return createdby;
+	}
+	public void setCreatedby(String createdby) {
+		this.createdby = createdby;
+	}
+	public String getModifiedby() {
+		return modifiedby;
+	}
+	public void setModifiedby(String modifiedby) {
+		this.modifiedby = modifiedby;
+	}
 	public Long getSlno() {
 		return slno;
 	}

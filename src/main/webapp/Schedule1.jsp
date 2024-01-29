@@ -228,7 +228,7 @@
 							<div class="form-floating">
 								<input type="text" class="form-control" id="mandal"
 									placeholder="12343215" required readonly> <label
-									for="mandal">mandal</label>
+									for="mandal">Mandal</label>
 							</div>
 						</div>
 					</div>
@@ -334,6 +334,10 @@
 	            var tendtime = $("#endtime").val();
 	            var vname = $("#venuename1").val();
 
+	            
+	            
+	              var username = sessionStorage.getItem("username");
+
 	            // Construct the formData object
 	            var formData = {
 	                ref_planner_id: trainingRefId,
@@ -362,6 +366,8 @@
 	                tstarttime: tstarttime,
 	                tendtime: tendtime,
 	                venue_name: vname,
+	                createdby:username,
+	                //modifiedby:username,
 	            };
 	            console.log(formData);
 

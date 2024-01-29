@@ -156,6 +156,18 @@ public class ViewMyTrainingsController {
 		List<ViewMyTrainings> trainings = viewMyTrainingsService.checkIfAlreadyAppliedTrainings(treasuryId, ref_planner_id);
 	return ResponseEntity.ok(trainings);
 	}
+	
+	@GetMapping("/approvedData")
+	public ResponseEntity<List<Map<String, Object>>> getApprovedDataTrainingVenueId(@RequestParam String trainingId,@RequestParam String venueId) {
+		List<Map<String, Object>> approvedDataLists = viewMyTrainingsService.findApprovedDataTeacherTrainingVenueId(trainingId,venueId);
+		return ResponseEntity.ok(approvedDataLists);
+	}
+	
+	@GetMapping("/approved-data")
+	public ResponseEntity<List<Map<String, Object>>> getApprovedData() {
+		List<Map<String, Object>> approvedDataList = viewMyTrainingsService.findApprovedDataTeacher();
+		return ResponseEntity.ok(approvedDataList);
+	}
  
 }
 

@@ -172,19 +172,18 @@ iframe {
 		<li><a href="/Schedule1.jsp" target="mainFrame">Schedule Training</a> </li>
 			<li> <a href="/viewTrainings.jsp" target="mainFrame">View Trainings</a></li>
 			<li> <a href="/TrainingManagement.jsp" target="mainFrame">Training Management</a></li>
-			<li> <a href="/Mastermapping.jsp" target="mainFrame">Master Mapping </a></li>
 			<li> <a href="/mastermapping2.jsp" target="mainFrame">Master Mapping2 </a></li>
+			<li> <a href="/viewmapping.jsp" target="mainFrame">View Mapping </a></li>
+			<li> <a href="/budgetmapping.jsp" target="mainFrame">Training Budget</a></li>
 		<li><a href="#" >Master Setup</a>
 			<ul>
 				<li><a href="/VenueSetUp.jsp"  target="mainFrame">Venue</a></li>
-				<li><a href="/session_master.jsp" target="mainFrame">Session</a></li>
 				<li><a href="/TrainingGrade.jsp" target="mainFrame">Training Grade</a></li>
 				<li><a href="#" target="mainFrame">Training Group</a></li>
 				<li><a href="/TrainingCategory.jsp"  target="mainFrame">Training Category</a></li>
 				<li><a href="/TrainingSpell.jsp" target="mainFrame">Training Spell</a></li>
 				<li><a href="#">Training Mode</a></li>
 				<li><a href="#">Training Status</a></li>
-				<li><a href="/ResourceType.jsp" target="mainFrame">Resource Type</a></li>
 			</ul></li>
 </ul>
 	</div>
