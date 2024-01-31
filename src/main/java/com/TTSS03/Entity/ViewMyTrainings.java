@@ -31,12 +31,21 @@ public class ViewMyTrainings {
 	private String resourcetype;
 	private String remarks;
 	private String secondlevelapproval;
+	private String designation;
 	private String appliedtype="self";
 	@Column(name="ref_planner_id")
 	private String ref_planner_id;
 	private long vid;
 	private String tstarttime;
 	private String tendtime;
+	
+	
+	public String getDesignation() {
+		return designation;
+	}
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
 	public int getSlno() {
 		return slno;
 	}

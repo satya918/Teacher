@@ -168,6 +168,15 @@ public class ViewMyTrainingsController {
 		List<Map<String, Object>> approvedDataList = viewMyTrainingsService.findApprovedDataTeacher();
 		return ResponseEntity.ok(approvedDataList);
 	}
+	
+	@GetMapping("/teacherCounts")
+    public ResponseEntity<Map<String, String>> getTeacherCounts(
+            @RequestParam String refPlannerId,
+            @RequestParam long venueId
+    ) {
+        Map<String, String> teacherCounts = viewMyTrainingsService.getTeacherCounts(refPlannerId, venueId);
+        return ResponseEntity.ok(teacherCounts);
+    }
  
 }
 

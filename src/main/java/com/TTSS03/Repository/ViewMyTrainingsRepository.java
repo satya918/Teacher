@@ -126,6 +126,14 @@ List<Object[]> findRejectedData();
 	        "AND mt.status = 'approved' AND tm.ref_planner_id = :refPlannerId AND tm.venue_id = :venueId", nativeQuery = true)
 	List<Map<String, Object>> findApprovedDataListTrainingVenueId(@Param("refPlannerId") String trainingId, @Param("venueId") String venueId);
 
-	
+	   @Query("SELECT COUNT(mt) FROM ViewMyTrainings mt WHERE mt.ref_planner_id = :refPlannerId AND mt.vid = :venueId AND mt.status = 'approved'")
+	    int countApprovedTeachers(@Param("refPlannerId") String refPlannerId, @Param("venueId") long venueId);
+	 
+	    @Query("SELECT COUNT(mt) FROM ViewMyTrainings mt WHERE (mt.designation LIKE '%head%' OR mt.designation LIKE '%princ%' OR mt.designation LIKE '%hm%') " +
+	            "AND mt.ref_planner_id = :refPlannerId AND mt.vid = :venueId AND mt.status = 'approved'")
+	    int countHMTeachers(@Param("refPlannerId") String refPlannerId, @Param("venueId") long venueId);
+	 
+	    @Query("SELECT COUNT(mt) FROM ViewMyTrainings mt WHERE mt.ref_planner_id = :refPlannerId AND mt.vid = :venueId AND mt.status = 'approved'")
+	    int countAllTeachers(@Param("refPlannerId") String refPlannerId, @Param("venueId") long venueId);
 
 }

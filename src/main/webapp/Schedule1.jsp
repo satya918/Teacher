@@ -87,6 +87,11 @@
 							<label for="venuename1">Venue Name1:</label> <input type="text"
 								class="form-control" id="venuename1" name="venueId" required>
 						</div>
+						
+						<div class="form-group" style="display: none;">
+							<label for="vcapacity">Venue capacity:</label> <input type="text"
+								class="form-control" id="vcapacity" name="vcapacity" required>
+						</div>
 
 
 					</div>
@@ -500,6 +505,7 @@
 							var vcontactno = response[0].vcontactno;
 							var vcontactmailid = response[0].vcontactmailid;
 							var maplocation = response[0].maplocation;
+							var vcapacity = response[0].vcapacity;
 
 							$("#venueId").val(vid);
 							$("#mandal").val(vmandal);

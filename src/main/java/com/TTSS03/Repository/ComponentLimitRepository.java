@@ -10,7 +10,7 @@ import com.TTSS03.Entity.ComponentLimit;
 
 public interface ComponentLimitRepository extends JpaRepository<ComponentLimit, Long> {
 	
-	 @Query("SELECT r.resources, r.approvedRate FROM ComponentLimit r WHERE r.resources IN (:resourceNames)")
+	 @Query("SELECT r.resources, r.approvedRate,r.unit FROM ComponentLimit r WHERE r.resources IN (:resourceNames)")
 	    List<Object[]> findResourcesAndRatesByNames(@Param("resourceNames") List<String> resourceNames);
 
 }

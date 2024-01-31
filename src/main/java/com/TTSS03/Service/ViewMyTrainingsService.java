@@ -52,5 +52,7 @@ public interface ViewMyTrainingsService {
 	List<Map<String, Object>> findApprovedDataTeacherTrainingVenueId(String trainingId, String venueId );
 	
 	List<Map<String, Object>> findApprovedDataTeacher();
+	
+	Map<String, String> getTeacherCounts(String refPlannerId, long venueId);
 
 }

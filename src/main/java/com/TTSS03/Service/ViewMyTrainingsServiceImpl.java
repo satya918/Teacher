@@ -309,6 +309,21 @@ public class ViewMyTrainingsServiceImpl implements ViewMyTrainingsService {
 		public List<Map<String, Object>> findApprovedDataTeacher() {
 			 return ViewMyTrainingsRepo.findApprovedDataList();
 		 }
+		
+		@Override
+		 public Map<String, String> getTeacherCounts(String refPlannerId, long venueId) {
+		        Map<String, String> teacherCounts = new HashMap<>();
+
+		        int totalApprovedTeachers = ViewMyTrainingsRepo.countApprovedTeachers(refPlannerId, venueId);
+		        int hmTeachers = ViewMyTrainingsRepo.countHMTeachers(refPlannerId, venueId);
+		        int allTeachers = ViewMyTrainingsRepo.countAllTeachers(refPlannerId, venueId);
+
+		        teacherCounts.put("Total_Approved_Teachers", totalApprovedTeachers + " nos");
+		        teacherCounts.put("HM", String.valueOf(hmTeachers) + " nos");
+		        teacherCounts.put("Teachers", String.valueOf(allTeachers - hmTeachers) + " nos");
+
+		        return teacherCounts;
+		    }
 			
 		
 }
